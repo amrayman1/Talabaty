@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Talabaty.BLL.Interfaces;
+using Talabaty.BLL.Specifications;
 using Talabaty.DAL.Entities;
 
 namespace Talabaty.API.Controllers
@@ -26,14 +27,18 @@ namespace Talabaty.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            var product = await _productGenericRepo.GetByIdAsync(id);
+            var spec = new ProductWithTypesAndBrandsSpecificataion(id);
+
+            var product = await _productGenericRepo.GetEntityWithSpec(spec);
             return product;
         }
 
         [HttpGet("products")]
         public async Task<ActionResult<List<Product>>> GetProducts()
         {
-            var products = await _productGenericRepo.GetAllAsync();
+            var spec = new ProductWithTypesAndBrandsSpecificataion();
+
+            var products = await _productGenericRepo.ListAsync(spec);
             return Ok(products);
         }
 
