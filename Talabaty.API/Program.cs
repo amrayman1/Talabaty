@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Talabaty.API.Middleware;
 using Talabaty.BLL.Interfaces;
 using Talabaty.BLL.Repositories;
 using Talabaty.DAL.Data;
@@ -30,7 +31,6 @@ namespace Talabaty.API
 
 
 
-
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -43,6 +43,8 @@ namespace Talabaty.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
