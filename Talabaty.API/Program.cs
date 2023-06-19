@@ -24,6 +24,8 @@ namespace Talabaty.API
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); // To register AutoMapper in the Program
+
 
 
 
@@ -43,6 +45,8 @@ namespace Talabaty.API
             }
 
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 
