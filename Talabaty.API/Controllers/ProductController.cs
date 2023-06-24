@@ -39,9 +39,9 @@ namespace Talabaty.API.Controllers
         }
 
         [HttpGet("products")]
-        public async Task<ActionResult<List<ProductDTO>>> GetProducts()
+        public async Task<ActionResult<List<ProductDTO>>> GetProducts(string sort)
         {
-            var spec = new ProductWithTypesAndBrandsSpecificataion();
+            var spec = new ProductWithTypesAndBrandsSpecificataion(sort);
 
             var products = await _productGenericRepo.ListAsync(spec);
 
