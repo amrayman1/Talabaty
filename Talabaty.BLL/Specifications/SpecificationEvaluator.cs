@@ -23,8 +23,8 @@ namespace Talabaty.BLL.Specifications
             if (spec.OrderByDescending != null)
                 query = query.OrderByDescending(spec.OrderByDescending);
 
-            //if (spec.IsPagingEnabled)
-            //    query = query.Skip(spec.Skip).Take(spec.Take);
+            if (spec.IsPagingEnabled)
+                query = query.Skip(spec.Skip).Take(spec.Take);
 
             query = spec.Includes.Aggregate(query, (currentQuery, include) => currentQuery.Include(include));
             return query;

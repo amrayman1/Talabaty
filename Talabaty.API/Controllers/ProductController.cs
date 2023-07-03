@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Talabaty.API.DTOS;
 using Talabaty.BLL.Interfaces;
+using Talabaty.BLL.ProductSpecifications;
 using Talabaty.BLL.Specifications;
 using Talabaty.DAL.Entities;
 
@@ -39,9 +40,9 @@ namespace Talabaty.API.Controllers
         }
 
         [HttpGet("products")]
-        public async Task<ActionResult<List<ProductDTO>>> GetProducts(string sort)
+        public async Task<ActionResult<List<ProductDTO>>> GetProducts([FromQuery] ProductSpecParams productSpecParams)
         {
-            var spec = new ProductWithTypesAndBrandsSpecificataion(sort);
+            var spec = new ProductWithTypesAndBrandsSpecificataion(productSpecParams);
 
             var products = await _productGenericRepo.ListAsync(spec);
 
