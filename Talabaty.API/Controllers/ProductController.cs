@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Talabaty.API.DTOS;
+using Talabaty.API.Helpers;
 using Talabaty.BLL.Interfaces;
 using Talabaty.BLL.ProductSpecifications;
 using Talabaty.BLL.Specifications;
@@ -40,13 +41,19 @@ namespace Talabaty.API.Controllers
         }
 
         [HttpGet("products")]
-        public async Task<ActionResult<List<ProductDTO>>> GetProducts([FromQuery] ProductSpecParams productSpecParams)
+        public async Task<ActionResult<Pagination<ProductDTO>>> GetProducts([FromQuery] ProductSpecParams productSpecParams)
         {
             var spec = new ProductWithTypesAndBrandsSpecificataion(productSpecParams);
 
+            var countSpec = new ProductWithFiltersForCountSpecification(productSpecParams);
+
+            var totalItems = await _productGenericRepo.CountAsync(countSpec);
+
             var products = await _productGenericRepo.ListAsync(spec);
 
-            return Ok(_mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDTO>>(products));
+            var data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDTO>>(products);
+
+            return Ok(new Pagination<ProductDTO>(productSpecParams.PageIndex, productSpecParams.PageSize, totalItems, data));
         }
 
         [HttpGet("types")]

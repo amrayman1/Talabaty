@@ -27,7 +27,13 @@ namespace Talabaty.API
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); // To register AutoMapper in the Program
 
-
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+                });
+            });
 
 
 
@@ -51,6 +57,8 @@ namespace Talabaty.API
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
+
+            app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
 

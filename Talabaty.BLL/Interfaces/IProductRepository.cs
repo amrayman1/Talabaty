@@ -7,7 +7,7 @@ using Talabaty.DAL.Entities;
 
 namespace Talabaty.BLL.Interfaces
 {
-    public interface IProductRepository
+    public interface IProductRepository 
     {
         Task<Product> GetProductByIdAsync(int id);
         Task<IReadOnlyList<Product>> GetAllProductsAsync();
